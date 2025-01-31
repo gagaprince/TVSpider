@@ -55,7 +55,7 @@ class TianTianSpider extends Spider {
 
 
     getName() {
-        return "⛄┃天天影视┃⛄"
+        return "天天影视"
     }
 
     getAppName() {
