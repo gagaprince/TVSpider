@@ -167,6 +167,8 @@ class Build():
                     f.write(write_content.encode("utf-8"))
         fileList = []
         fileNameList = os.listdir(os.path.join(nodejsPath, typeName))
+        print(typeName)
+        print(fileNameList)
         for fileName in fileNameList:
             fileList.append(fileName)
         writeContent,spiderList = self.getImportNameByType(fileList,typeName)
@@ -184,6 +186,8 @@ class Build():
 
 
     def writeRouterJs(self,writeRouterStr,spiderList):
+        print(writeRouterStr)
+        print(spiderList)
         writeRouterStr = writeRouterStr  + "const spiders = [{}];".format(",".join(spiderList)) + "\n"
         with open("nodejs/src/router.txt", "rb") as f:
             contentlist = f.readlines()
@@ -205,12 +209,13 @@ class Build():
     def writeDistConfig(self):
         tvType = "CatOpen"
         videoWriteContent,videoSpiderList = self.jsToNodejs(self.getJsList(tvType, type=3), "video")
-        self.jsToNodejs(self.getJsList(tvType, type=10), "book")
-        bookWriteContent,bookSpiderList = self.jsToNodejs(self.getJsList(tvType, type=20), "book")
-        panWriteContent,panSpiderList = self.jsToNodejs([], "pan")
-        videoSpiderList.extend(bookSpiderList)
-        videoSpiderList.extend(panSpiderList)
-        self.writeRouterJs(videoWriteContent+bookWriteContent+panWriteContent,videoSpiderList)
+        # self.jsToNodejs(self.getJsList(tvType, type=10), "book")
+        # bookWriteContent,bookSpiderList = self.jsToNodejs(self.getJsList(tvType, type=20), "book")
+        # panWriteContent,panSpiderList = self.jsToNodejs([], "pan")
+        # videoSpiderList.extend(bookSpiderList)
+        # videoSpiderList.extend(panSpiderList)
+        # self.writeRouterJs(videoWriteContent+bookWriteContent+panWriteContent,videoSpiderList)
+        self.writeRouterJs(videoWriteContent,videoSpiderList)
         self.writeNodeConfig()
     def build(self):
         self.writeTVConfig()

@@ -143,10 +143,12 @@ async function request(url, opt) {
         }
         return {code: resp.status, headers: resHeader, content: data};
     } catch (error) {
+        // console.error(error);
         let resp = error.response
         try {
             return {code: resp.status, headers: resp.headers, content: JSON.stringify(resp.data)};
         } catch (err) {
+            // console.error(err);
             return {headers: {}, content: ''};
         }
     }

@@ -468,7 +468,7 @@ class Spider {
         this.danmuStaus = this.cfgObj["danmu"] ?? this.danmuStaus
         try {
             if (await this.loadFilterAndClasses()) {
-                await this.jadeLog.debug(`读取缓存列表和二级菜单成功!!!`)
+                await this.jadeLog.debug(`读取缓存列表和二级菜单成功---`)
             } else {
                 await this.jadeLog.warning(`读取缓存列表和二级菜单失败`)
                 await this.writeFilterAndClasses()

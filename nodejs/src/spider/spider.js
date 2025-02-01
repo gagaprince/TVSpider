@@ -28,11 +28,11 @@ class NodeJSSpider extends Spider {
             this.cfgObj = inReq.server.config[this.siteKey]
             this.deviceKey = inReq.server.prefix + "/";
             this.db = inReq.server.db
-            this.catOpenStatus = true
+            this.catOpenStatus = false;
             this.danmuStaus = false
             try {
                 if (await this.loadFilterAndClasses()) {
-                    await this.jadeLog.debug(`读取缓存列表和二级菜单成功`)
+                    await this.jadeLog.debug(`读取缓存列表和二级菜单成功!!!`)
                 } else {
                     await this.jadeLog.warning(`读取缓存列表和二级菜单失败`)
                     await this.writeFilterAndClasses()
@@ -51,10 +51,12 @@ class NodeJSSpider extends Spider {
 
     async loadFilterAndClasses() {
         // 强制清空
-        // await local.set(this.siteKey, "classes", JSON.stringify([]));
-        // await local.set(this.siteKey, "filterObj", JSON.stringify({}));
+        await this.db.push(this.deviceKey + "classes", [])
+        await this.db.push(this.deviceKey + "filterObj", {})
+        await local.set(this.siteKey, "filterObj", JSON.stringify({}));
         this.classes = await this.getClassesCache()
         this.filterObj = await this.getFiletObjCache()
+        console.log(this.classes)
         if (this.classes.length > 0) {
             return true
         } else {
