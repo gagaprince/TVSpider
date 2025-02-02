@@ -1,25 +1,30 @@
+/**
+ * @Desc 老色逼资源🔞 cms
+ */
+// import {Spider} from "./spider.js";
 import { CmsSpider } from '../jsbase/cmsbase/cms.js'
 
-class Cms91Spider extends CmsSpider {
+
+class CmslaosebiSpider extends CmsSpider {
     constructor() {
         super();
-        this.siteUrl = "https://91md.me/api.php/provide/vod"
-        // this.siteUrl='https://naixxzy.com/api.php/provide/vod/';
+        this.siteUrl = "https://apilsbzy1.com/api.php/provide/vod/"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
     }
 
+
     getName() {
-        return "91成人🔞"
+        return "老色逼资源🔞"
     }
 
     getAppName() {
-        return "91成人"
+        return "老色逼资源🔞"
     }
 
     getJSName() {
-        return "cms91"
+        return "cmslaosebi"
     }
 
     getType() {
@@ -28,8 +33,7 @@ class Cms91Spider extends CmsSpider {
 }
 
 
-
-let spider = new Cms91Spider()
+let spider = new CmslaosebiSpider()
 
 async function init(cfg) {
     await spider.init(cfg)
@@ -65,4 +69,4 @@ export function __jsEvalReturn() {
     };
 }
 
-export {spider, Cms91Spider}
+export {spider, CmslaosebiSpider}

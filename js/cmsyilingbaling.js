@@ -1,25 +1,30 @@
+/**
+ * @Desc 1080资源 cms
+ */
+// import {Spider} from "./spider.js";
 import { CmsSpider } from '../jsbase/cmsbase/cms.js'
 
-class Cms91Spider extends CmsSpider {
+
+class CmsyilingbalingSpider extends CmsSpider {
     constructor() {
         super();
-        this.siteUrl = "https://91md.me/api.php/provide/vod"
-        // this.siteUrl='https://naixxzy.com/api.php/provide/vod/';
+        this.siteUrl = "https://api.1080zyku.com/inc/api_mac10.php"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
     }
 
+
     getName() {
-        return "91成人🔞"
+        return "1080资源"
     }
 
     getAppName() {
-        return "91成人"
+        return "1080资源"
     }
 
     getJSName() {
-        return "cms91"
+        return "cmsyilingbaling"
     }
 
     getType() {
@@ -28,8 +33,7 @@ class Cms91Spider extends CmsSpider {
 }
 
 
-
-let spider = new Cms91Spider()
+let spider = new CmsyilingbalingSpider()
 
 async function init(cfg) {
     await spider.init(cfg)
@@ -65,4 +69,4 @@ export function __jsEvalReturn() {
     };
 }
 
-export {spider, Cms91Spider}
+export {spider, CmsyilingbalingSpider}

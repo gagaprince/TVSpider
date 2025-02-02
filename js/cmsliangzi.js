@@ -1,25 +1,43 @@
+/**
+ * @Desc 量子 cms
+ */
+// import {Spider} from "./spider.js";
 import { CmsSpider } from '../jsbase/cmsbase/cms.js'
 
-class Cms91Spider extends CmsSpider {
+
+class CmsliangziSpider extends CmsSpider {
     constructor() {
         super();
-        this.siteUrl = "https://91md.me/api.php/provide/vod"
-        // this.siteUrl='https://naixxzy.com/api.php/provide/vod/';
+        this.siteUrl = "https://cj.lziapi.com/api.php/provide/vod/at/json/"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
     }
 
+    // async request(url, method='get', data){
+    //     console.log('baidu request --------');
+    //     const headers = {
+    //         'User-Agent': 'PostmanRuntime/7.43.0',
+    //         'Accept':'*/*'
+    //     };
+    //     const res = await req(url, {
+    //         method,
+    //         headers,
+    //         data,
+    //     })
+    //     return res.content;
+    // }
+
     getName() {
-        return "91成人🔞"
+        return "量子"
     }
 
     getAppName() {
-        return "91成人"
+        return "量子"
     }
 
     getJSName() {
-        return "cms91"
+        return "cmsliangzi"
     }
 
     getType() {
@@ -28,8 +46,7 @@ class Cms91Spider extends CmsSpider {
 }
 
 
-
-let spider = new Cms91Spider()
+let spider = new CmsliangziSpider()
 
 async function init(cfg) {
     await spider.init(cfg)
@@ -65,4 +82,4 @@ export function __jsEvalReturn() {
     };
 }
 
-export {spider, Cms91Spider}
+export {spider, CmsliangziSpider}

@@ -1,25 +1,29 @@
+/**
+ * @Desc 卧龙 cms
+ */
+// import {Spider} from "./spider.js";
 import { CmsSpider } from '../jsbase/cmsbase/cms.js'
 
-class Cms91Spider extends CmsSpider {
+
+class CmswolongSpider extends CmsSpider {
     constructor() {
         super();
-        this.siteUrl = "https://91md.me/api.php/provide/vod"
-        // this.siteUrl='https://naixxzy.com/api.php/provide/vod/';
+        this.siteUrl = "https://collect.wolongzyw.com/api.php/provide/vod/"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
     }
 
     getName() {
-        return "91成人🔞"
+        return "卧龙"
     }
 
     getAppName() {
-        return "91成人"
+        return "卧龙"
     }
 
     getJSName() {
-        return "cms91"
+        return "cmswolong"
     }
 
     getType() {
@@ -28,8 +32,7 @@ class Cms91Spider extends CmsSpider {
 }
 
 
-
-let spider = new Cms91Spider()
+let spider = new CmswolongSpider()
 
 async function init(cfg) {
     await spider.init(cfg)
@@ -65,4 +68,4 @@ export function __jsEvalReturn() {
     };
 }
 
-export {spider, Cms91Spider}
+export {spider, CmswolongSpider}

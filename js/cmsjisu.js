@@ -1,25 +1,30 @@
+/**
+ * @Desc 极速资源 cms
+ */
+// import {Spider} from "./spider.js";
 import { CmsSpider } from '../jsbase/cmsbase/cms.js'
 
-class Cms91Spider extends CmsSpider {
+
+class CmsjisuSpider extends CmsSpider {
     constructor() {
         super();
-        this.siteUrl = "https://91md.me/api.php/provide/vod"
-        // this.siteUrl='https://naixxzy.com/api.php/provide/vod/';
+        this.siteUrl = "https://jszyapi.com/api.php/provide/vod/at/json"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
     }
 
+
     getName() {
-        return "91成人🔞"
+        return "极速资源"
     }
 
     getAppName() {
-        return "91成人"
+        return "极速资源"
     }
 
     getJSName() {
-        return "cms91"
+        return "cmsjisu"
     }
 
     getType() {
@@ -28,8 +33,7 @@ class Cms91Spider extends CmsSpider {
 }
 
 
-
-let spider = new Cms91Spider()
+let spider = new CmsjisuSpider()
 
 async function init(cfg) {
     await spider.init(cfg)
@@ -65,4 +69,4 @@ export function __jsEvalReturn() {
     };
 }
 
-export {spider, Cms91Spider}
+export {spider, CmsjisuSpider}
