@@ -1,7 +1,7 @@
 import { Spider } from "./spider.js";
 import { VodDetail, VodShort } from "../lib/vod";
 
-class CmsGroupSpider extends Spider {
+class CmsGroup18Spider extends Spider {
     constructor() {
         super();
         this.siteUrl = "https://new.gagaprince.top:3000"
@@ -35,15 +35,19 @@ class CmsGroupSpider extends Spider {
         return 3
     }
 
+    getJSName() {
+        return "cmsgroup"
+    }
+
     async init(cfg) {
         await super.init(cfg);
     }
 
     parseCate(classes) {
         this.allClass = classes.map(item => ({
-            type_id: item.main_type_id,
+            type_id: item.main_type_id+'',
             type_name: item.main_type_name,
-            type_pid: item.main_type_pid,
+            type_pid: item.main_type_pid+'',
         }));
         return this.allClass.filter(item => item.type_pid == 0)
     }
@@ -67,7 +71,7 @@ class CmsGroupSpider extends Spider {
     parseSmallCate(type_pid) {
         const smallClass = this.allClass.filter(item => item.type_pid == type_pid)
         return smallClass.map(item => ({
-            v: item.type_id,
+            v: item.type_id+'',
             n: item.type_name
         }))
     }
@@ -91,7 +95,7 @@ class CmsGroupSpider extends Spider {
 
     async setFilterObj() {
         for (let item of this.classes) {
-            this.filterObj[item.type_id] = await this.getFilter(type_id);
+            this.filterObj[item.type_id] = await this.getFilter(item.type_id);
         }
     }
 
@@ -145,7 +149,7 @@ class CmsGroupSpider extends Spider {
 
     async setSearch(wd, quick, pg) {
         try {
-            const searchUrl = `${this.siteUrl}/cms/video/search?key=${wd}&pg=${pg}&is18=${this.is18}`;
+            const searchUrl = `${this.siteUrl}/cms/video/search?key=${wd}&pg=${pg}&psize=500&is18=${this.is18}`;
             let content = await this.request(searchUrl)
             let retry = 0;
             while (!content && retry < 3) {
@@ -162,7 +166,7 @@ class CmsGroupSpider extends Spider {
 }
 
 
-let spider = new CmsGroupSpider()
+let spider = new CmsGroup18Spider()
 
 async function init(cfg) {
     await spider.init(cfg)
@@ -198,4 +202,4 @@ export function __jsEvalReturn() {
     };
 }
 
-export { spider, CmsGroupSpider }
+export { spider, CmsGroup18Spider }

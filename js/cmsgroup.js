@@ -1,10 +1,10 @@
 import { Spider } from "./spider.js";
-import { VodDetail, VodShort } from "../lib/vod";
+import { VodDetail, VodShort } from "../lib/vod.js";
 
 class CmsGroupSpider extends Spider {
     constructor() {
         super();
-        this.siteUrl = "https://new.gagaprince.top:3000"
+        this.siteUrl = "http://new.gagaprince.top:3000"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
@@ -34,15 +34,19 @@ class CmsGroupSpider extends Spider {
         return 3
     }
 
+    getJSName() {
+        return "cmsgroup"
+    }
+
     async init(cfg) {
         await super.init(cfg);
     }
 
     parseCate(classes) {
         this.allClass = classes.map(item => ({
-            type_id: item.main_type_id,
+            type_id: item.main_type_id+'',
             type_name: item.main_type_name,
-            type_pid: item.main_type_pid,
+            type_pid: item.main_type_pid+'',
         }));
         return this.allClass.filter(item => item.type_pid == 0)
     }
@@ -50,12 +54,14 @@ class CmsGroupSpider extends Spider {
     async setClasses() {
         try {
             const cateUrl = `${this.siteUrl}/cms/cate/list`
+            console.log('cateUrl:', cateUrl);
             let content = await this.request(cateUrl);
             let retry = 0;
             while (!content && retry < 3) {
                 retry++;
                 content = await this.request(cateUrl)
             }
+            console.log('setClasses:', content);
             let resJson = JSON.parse(content);
             this.classes = this.parseCate(resJson.data.class);
         } catch (error) {
@@ -66,7 +72,7 @@ class CmsGroupSpider extends Spider {
     parseSmallCate(type_pid) {
         const smallClass = this.allClass.filter(item => item.type_pid == type_pid)
         return smallClass.map(item => ({
-            v: item.type_id,
+            v: item.type_id+'',
             n: item.type_name
         }))
     }
@@ -90,8 +96,9 @@ class CmsGroupSpider extends Spider {
 
     async setFilterObj() {
         for (let item of this.classes) {
-            this.filterObj[item.type_id] = await this.getFilter(type_id);
+            this.filterObj[item.type_id] = await this.getFilter(item.type_id);
         }
+        console.log('setFilterObj:', this.filterObj);
     }
 
     async parseVodShortListFromJson(vodList) {
@@ -144,7 +151,7 @@ class CmsGroupSpider extends Spider {
 
     async setSearch(wd, quick, pg) {
         try {
-            const searchUrl = `${this.siteUrl}/cms/video/search?key=${wd}&pg=${pg}`;
+            const searchUrl = `${this.siteUrl}/cms/video/search?key=${wd}&pg=${pg}&psize=300`;
             let content = await this.request(searchUrl)
             let retry = 0;
             while (!content && retry < 3) {

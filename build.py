@@ -159,9 +159,7 @@ class Build():
             with open(os.path.join(nodejsPath, "tmpSpider.txt"), "rb") as f:
                 contentlist = f.readlines()
                 for content in contentlist:
-                    write_content = write_content + str(content, encoding="utf-8").replace("temp",
-                                                                                           jsMoudle.getJSName()).replace(
-                        "updateTime", GetTimeStamp())
+                    write_content = write_content + str(content, encoding="utf-8").replace("temp",jsMoudle.getJSName()).replace("updateTime", GetTimeStamp())
                 saveJsPath = os.path.join(nodejsPath, typeName, GetLastDir(jsMoudle.js_file))
                 with open(saveJsPath, "wb") as f:
                     f.write(write_content.encode("utf-8"))
