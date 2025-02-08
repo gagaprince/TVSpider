@@ -1,10 +1,10 @@
 import { Spider } from "./spider.js";
-import { VodDetail, VodShort } from "../lib/vod";
+import { VodDetail, VodShort } from "../lib/vod.js";
 
 class CmsGroup18Spider extends Spider {
     constructor() {
         super();
-        this.siteUrl = "https://new.gagaprince.top:3000"
+        this.siteUrl = "http://new.gagaprince.top:3000"
         this.extendObj = {}
         this.parseMap = {};
         this.catOpenStatus = false;
@@ -36,7 +36,7 @@ class CmsGroup18Spider extends Spider {
     }
 
     getJSName() {
-        return "cmsgroup"
+        return "cmsgroup18"
     }
 
     async init(cfg) {
