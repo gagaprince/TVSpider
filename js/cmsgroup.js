@@ -20,6 +20,7 @@ class CmsGroupSpider extends Spider {
             method,
             headers,
             data,
+            timeout:30000
         })
         return res.content;
     }

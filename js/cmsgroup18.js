@@ -21,6 +21,7 @@ class CmsGroup18Spider extends Spider {
             method,
             headers,
             data,
+            timeout:30000
         })
         return res.content;
     }
