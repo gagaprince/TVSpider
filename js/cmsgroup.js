@@ -90,7 +90,25 @@ class CmsGroupSpider extends Spider {
 
         // 年份
 
+        let extend_year_dic = {"key": '年份', "name": '年份', "value": [] }
+        extend_year_dic.value.push({ v: '', n: '全部' })
+        for(let i=2025;i>=2000;i--){
+            extend_year_dic.value.push({
+                v: i+'',
+                n: i+''
+            });
+        }
+        extend_list.push(extend_year_dic);
+
         // 字母
+        let extend_letter_dic = {"key": '字母', "name": '字母', "value": [] }
+        extend_letter_dic.value.push({ v: '', n: '全部' })
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter=>{
+            extend_letter_dic.value.push({ v: letter, n: letter })
+        })
+
+        extend_list.push(extend_letter_dic);
+
 
         return extend_list;
     }
@@ -117,7 +135,9 @@ class CmsGroupSpider extends Spider {
     async setCategory(tid, pg, filter, extend) {
         const bigCateId = tid;
         const smallCateId = extend['分类'] || '';
-        const videoFilterUrl = `${this.siteUrl}/cms/video/filter?pg=${pg}&bigCateId=${bigCateId}&smallCateId=${smallCateId}`
+        const year = extend['年份'] || '';
+        const letter = extend['字母'] || '';
+        const videoFilterUrl = `${this.siteUrl}/cms/video/filter?pg=${pg}&bigCateId=${bigCateId}&smallCateId=${smallCateId}&year=${year}&letter=${letter}`
         let content = await this.request(videoFilterUrl)
         let retry = 0;
         while (!content && retry < 3) {
