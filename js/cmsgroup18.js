@@ -21,7 +21,7 @@ class CmsGroup18Spider extends Spider {
             method,
             headers,
             data,
-            timeout:30000
+            timeout: 30000
         })
         return res.content;
     }
@@ -46,9 +46,9 @@ class CmsGroup18Spider extends Spider {
 
     parseCate(classes) {
         this.allClass = classes.map(item => ({
-            type_id: item.main_type_id+'',
+            type_id: item.main_type_id + '',
             type_name: item.main_type_name,
-            type_pid: item.main_type_pid+'',
+            type_pid: item.main_type_pid + '',
         }));
         return this.allClass.filter(item => item.type_pid == 0)
     }
@@ -72,7 +72,7 @@ class CmsGroup18Spider extends Spider {
     parseSmallCate(type_pid) {
         const smallClass = this.allClass.filter(item => item.type_pid == type_pid)
         return smallClass.map(item => ({
-            v: item.type_id+'',
+            v: item.type_id + '',
             n: item.type_name
         }))
     }
@@ -134,7 +134,7 @@ class CmsGroup18Spider extends Spider {
 
     async setDetail(id) {
         try {
-            const url = `${this.siteUrl}/cms/video/detail?ids=${id}`
+            const url = `${this.siteUrl}/cms/video/detail?ids=${id}&is18=1`
             let content = await this.request(url)
             let retry = 0;
             while (!content && retry < 3) {
