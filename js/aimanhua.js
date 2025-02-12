@@ -75,19 +75,6 @@ class ManhuaSpider extends Spider {
         return books
     }
 
-    async parseVodShortListFromDoc($) {
-        let vodElements = $("[class=\"container edit\"]").find("[class=\"col-auto\"]")
-        let books = []
-        for (const vodElement of vodElements) {
-            let bookShort = new BookShort()
-            bookShort.book_id = $(vodElement).find("a")[0].attribs.href.split("/comic/")[1]
-            bookShort.book_pic = $(vodElement).find("img")[0].attribs["data-src"]
-            bookShort.book_name = $($(vodElement).find("p")).text()
-            books.push(bookShort)
-        }
-        return books
-    }
-
 
     async parseVodDetailFromDoc(bookInfo, id) {
         let bookDetail = new BookDetail()
@@ -97,7 +84,7 @@ class ManhuaSpider extends Spider {
         bookDetail.book_content = bookInfo.intro;
         const chapterList = bookInfo.chapterList;
         let urls = chapterList.map((chapter) => {
-            return chapter.name + '$' + id + '|' + chapter.url;
+            return chapter.name + '$' + chapter.url;
         }).join('#');
         bookDetail.volumes = '默認';
         bookDetail.urls = urls;
@@ -154,22 +141,17 @@ class ManhuaSpider extends Spider {
     }
 
     async setPlay(flag, id, flags) {
-        let info = id.split('|');
-        let $ = await this.getHtml(this.siteUrl + `/comic/${info[0]}/chapter/${info[1]}`);
-        const data = $('div.imageData')[0].attribs["contentkey"];
-        let key = Crypto.enc.Utf8.parse('xxxmanga.woo.key');
-        let iv = Crypto.enc.Utf8.parse(data.substr(0, 16));
-        let src = Crypto.enc.Hex.parse(data.substr(16));
-        let dst = Crypto.AES.decrypt({ ciphertext: src }, key, { iv: iv, padding: Crypto.pad.Pkcs7 });
-        dst = Crypto.enc.Utf8.stringify(dst);
-        const list = JSON.parse(dst);
-        let content = [];
-        for (let index = 0; index < list.length; index++) {
-            const element = list[index];
-            content[index] = element.url;
-        }
+        const url = this.siteUrl + id;
+        const content = await this.request(url);
+        let $ = load(content);
+        const contentEle = $('#content');
+        const picList = [];
+        contentEle.find('img').each((index, ele) => {
+            picList.push($(ele).attr('src'));
+        });
+
         this.playUrl = {
-            "content": content,
+            "content": picList,
         }
     }
     async setSearch(wd, quick) {
