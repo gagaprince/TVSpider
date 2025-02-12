@@ -208,12 +208,13 @@ class Build():
         tvType = "CatOpen"
         videoWriteContent,videoSpiderList = self.jsToNodejs(self.getJsList(tvType, type=3), "video")
         # self.jsToNodejs(self.getJsList(tvType, type=10), "book")
-        # bookWriteContent,bookSpiderList = self.jsToNodejs(self.getJsList(tvType, type=20), "book")
+        bookWriteContent,bookSpiderList = self.jsToNodejs(self.getJsList(tvType, type=20), "book")
         # panWriteContent,panSpiderList = self.jsToNodejs([], "pan")
-        # videoSpiderList.extend(bookSpiderList)
+        videoSpiderList.extend(bookSpiderList)
         # videoSpiderList.extend(panSpiderList)
+        self.writeRouterJs(videoWriteContent+bookWriteContent,videoSpiderList)
         # self.writeRouterJs(videoWriteContent+bookWriteContent+panWriteContent,videoSpiderList)
-        self.writeRouterJs(videoWriteContent,videoSpiderList)
+        # self.writeRouterJs(videoWriteContent,videoSpiderList)
         self.writeNodeConfig()
     def build(self):
         self.writeTVConfig()

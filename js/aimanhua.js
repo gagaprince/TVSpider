@@ -103,7 +103,7 @@ class ManhuaSpider extends Spider {
     async setCategory(tid, pg, filter, extend) {
         let page = pg || 1;
         if (page === 0) page = 1;
-        let link = `${this.siteUrl}${tid}/page/${page}`;
+        let link = `${tid}/page/${page}`;
         console.log('获取分类结果list的url：', link);
         const html = await this.request(link)
         const $ = load(html);
@@ -119,8 +119,20 @@ class ManhuaSpider extends Spider {
         this.vodList = await this.parseVodShortListFromDocByCategory(bookList)
     }
 
+    parseChapterList(chapterListEle, $) {
+        const result = [];
+        for (let i = 0; i < chapterListEle.length; i++) {
+          const ele = chapterListEle[i];
+          const name = $(ele).attr('title');
+          const url = $(ele).attr('href');
+          result.push({ name, url });
+        }
+        return result;
+      }
+
     async setDetail(id) {
-        const url = this.siteUrl + id;
+        const url = id;
+        console.log(url);
         const content = await this.request(url);
         let $ = load(content);
         const mainInfoEle = $('#maininfo');
@@ -141,7 +153,7 @@ class ManhuaSpider extends Spider {
     }
 
     async setPlay(flag, id, flags) {
-        const url = this.siteUrl + id;
+        const url = id;
         const content = await this.request(url);
         let $ = load(content);
         const contentEle = $('#content');
@@ -156,9 +168,19 @@ class ManhuaSpider extends Spider {
     }
     async setSearch(wd, quick) {
         let page = 1
-        const link = `${this.siteUrl}/api/kb/web/searcha/comics?offset=${page > 1 ? ((page - 1) * 12).toString() : ''}&platform=2&limit=12&q=${wd}&q_type=`;
-        let list = JSON.parse(await this.fetch(link, null, this.getHeader()))["results"]["list"]
-        this.vodList = await this.parseVodShortListFromJson(list)
+        const url = `${this.siteUrl}/index.php/search?key=${wd}`;
+        const content = await this.request(url);
+        const $ = load(content);
+        const result = [];
+        const manhuaList = $('.bos1').find('.item-cover');
+        for (let i = 0; i < manhuaList.length; i++) {
+            const ele = manhuaList[i];
+            const name = $(ele).find('h3').text();
+            const url = $(ele).find('a').attr('href');
+            const imgUrl = $(ele).find('img').attr('src');
+            result.push({ name, url, imgUrl });
+        }
+        this.vodList = await this.parseVodShortListFromJson(result)
     }
 }
 
