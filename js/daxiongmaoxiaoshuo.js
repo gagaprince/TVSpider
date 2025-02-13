@@ -68,11 +68,18 @@ class DaxiongmaoXiaoshuoSpider extends Spider {
         console.log('分类:', this.classes);
     }
 
+    parseImg(url) {
+        if (!url.startsWith('http')) {
+            return `${this.siteUrl}${url}`;
+        }
+        return url;
+    }
+
     parseVodShortFromJson(obj) {
         let bookShort = new BookShort()
         bookShort.book_id = obj["url"]
         bookShort.book_name = obj["name"]
-        bookShort.book_pic = obj["imgUrl"]
+        bookShort.book_pic = this.parseImg(obj["imgUrl"])
         bookShort.book_remarks = obj['updateTime'];
         return bookShort
     }
@@ -89,7 +96,7 @@ class DaxiongmaoXiaoshuoSpider extends Spider {
 
     async parseVodDetailFromDoc(bookInfo, id) {
         let bookDetail = new BookDetail()
-        bookDetail.book_pic = bookInfo.imgUrl
+        bookDetail.book_pic = this.parseImg(bookInfo.imgUrl);
         bookDetail.book_name = bookInfo.name;
         bookDetail.book_director = bookInfo.author;
         bookDetail.book_content = bookInfo.intro;
